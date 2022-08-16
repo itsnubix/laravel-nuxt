@@ -1,27 +1,29 @@
+import { useAuthStore } from '@/stores/auth'
+
 export const useAuth = () => {
-  const { $api } = useNuxtApp()
-
-  const user = null
-
-  const csrf = () => $api('/sanctum/csrf-cookie')
+  const authStore = useAuthStore()
 
   const login = async (credentials: { email: string; password: string }) => {
-    // await csrf()
-    // try {
-    //   const response = await $api('login', {
-    //     body: JSON.stringify(credentials),
-    //     method: 'post',
-    //   })
-    //   const json = await response.json()
-    //   console.log(json)
-    // } catch (error) {
-    //   createError(error)
-    // }
+    try {
+      await useApi().post('login', { ...credentials })
+      await authStore.loadUser()
+
+      return navigateTo('/')
+    } catch (error) {
+      createError(error)
+
+      return navigateTo('logout')
+    }
+  }
+
+  const logout = async () => {
+    await authStore.clearUser()
+    await useApi().delete('logout')
+
+    return navigateTo('login')
   }
 
   const register = async () => {}
 
-  const logout = async () => {}
-
-  return { user, csrf, login, register, logout }
+  return { login, register, logout }
 }

@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'guest',
+  middleware: 'guest',
 })
 
 const state = reactive({ email: '', password: '' })
 
-const authenticate = () => {
+const authenticate = async () => {
   const { login } = useAuth()
 
-  login({ email: state.email, password: state.password })
+  await login({ email: state.email, password: state.password })
 }
 </script>
 

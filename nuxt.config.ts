@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
@@ -20,5 +19,6 @@ export default defineNuxtConfig({
       apiBase: '',
     },
   },
-  modules: ['@nuxtjs/tailwindcss'],
+
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
 })
