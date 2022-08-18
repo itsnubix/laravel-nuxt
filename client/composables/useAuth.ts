@@ -2,23 +2,21 @@ import { useAuthStore } from '@/stores/auth'
 
 export const useAuth = () => {
   const authStore = useAuthStore()
+  const { $api } = useApi()
 
   const login = async (credentials: { email: string; password: string }) => {
-    try {
-      await useApi().post('login', { ...credentials })
-      await authStore.loadUser()
+    console.log(1)
+    await $api.post('login', { ...credentials })
+    console.log(2)
+    await authStore.loadUser()
+    console.log(3)
 
-      return navigateTo('/')
-    } catch (error) {
-      createError(error)
-
-      return navigateTo('logout')
-    }
+    return navigateTo('/')
   }
 
   const logout = async () => {
     await authStore.clearUser()
-    await useApi().delete('logout')
+    await $api.delete('logout')
 
     return navigateTo('login')
   }

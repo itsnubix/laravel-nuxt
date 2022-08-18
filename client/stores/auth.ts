@@ -7,7 +7,7 @@ interface User {
 }
 
 interface State {
-  user: User
+  user: User | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -17,9 +17,10 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async loadUser() {
-      const { data } = await useApi().get('api/user')
+      const { $api } = useApi()
+      const { data: user } = await $api.get('api/user')
 
-      this.updateUser(data)
+      this.updateUser(user)
     },
 
     updateUser(user: User) {

@@ -4,17 +4,30 @@ definePageMeta({
   middleware: 'guest',
 })
 
-const state = reactive({ email: '', password: '' })
+const { login } = useAuth()
+const { createErrorBag, handleErrors } = useApi()
+
+const state = ref({
+  email: 'asdf@asdf',
+  password: 'asdf',
+})
+
+const errors = createErrorBag(['email', 'password'])
 
 const authenticate = async () => {
-  const { login } = useAuth()
-
-  await login({ email: state.email, password: state.password })
+  try {
+    await login({ email: state.value.email, password: state.value.password })
+  } catch (error) {
+    console.log(error)
+    handleErrors(error, errors)
+  }
 }
 </script>
 
 <template>
   <div>
+    {{ errors.email }}
+    {{ state }}
     <h1 class="text-2xl font-medium text-center">Login</h1>
     <Card class="mt-2">
       <form method="post" v-on:submit.prevent="authenticate">
