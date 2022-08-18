@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::fallback(fn () => file_get_contents(public_path('200.html')));
+// Route::fallback(fn () => file_get_contents(public_path('index.html')));
 
 require __DIR__.'/auth.php';

@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     // private vars here
 
     public: {
+      appName: '',
       apiBase: '',
     },
   },

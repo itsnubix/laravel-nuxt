@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 import { Ref } from 'nuxt/dist/app/compat/capi'
+import { useAuthStore } from '../stores/auth'
 
 export interface ErrorBag extends Ref {
   $message: string
@@ -37,11 +38,20 @@ export const useApi = () => {
     errorBag.value.$message = data['message']
 
     switch (status) {
+      case 401:
+        return handleUnauthenticatedErrors()
       case 422:
         return handleValidationErrors(data['errors'], errorBag)
       default:
         throw error
     }
+  }
+
+  const handleUnauthenticatedErrors = async () => {
+    const { clearUser } = useAuthStore()
+    await clearUser()
+
+    return navigateTo('login')
   }
 
   const handleValidationErrors = (errors: Object, errorBag: ErrorBag) => {

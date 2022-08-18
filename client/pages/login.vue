@@ -15,7 +15,9 @@ const authenticate = async () => {
   clearErrors(errors)
 
   try {
-    await login({ email: state.value.email, password: state.value.password })
+    await login({ ...state.value })
+
+    return navigateTo('/')
   } catch (error) {
     handleErrors(error, errors)
   }
@@ -24,9 +26,11 @@ const authenticate = async () => {
 
 <template>
   <div>
-    <h1 class="text-2xl font-medium text-center">Login</h1>
-    {{ errors.asdf }}
-    <Card class="mt-2">
+    <NuxtLink to="/">
+      <ApplicationLogo class="mx-auto" />
+    </NuxtLink>
+
+    <Card class="mt-6">
       <form method="post" v-on:submit.prevent="authenticate">
         <div>
           <FormLabel for="email">Email</FormLabel>
@@ -57,10 +61,18 @@ const authenticate = async () => {
           <FormError :value="errors.password" />
         </div>
 
-        <div class="mt-6">
-          <FormButton type="submit">Submit</FormButton>
+        <div class="mt-6 flex items-center justify-end">
+          <NuxtLink to="forgot-password" class="mr-3 text-sm text-gray-700">
+            Forgot your password?
+          </NuxtLink>
+          <FormButton type="submit">Login</FormButton>
         </div>
       </form>
     </Card>
+
+    <div class="mt-8 text-center text-sm">
+      <p>Don't have an account?</p>
+      <NuxtLink to="/register" class="underline">Create one now</NuxtLink>
+    </div>
   </div>
 </template>

@@ -1,0 +1,1 @@
+import{_ as o}from"./ApplicationLogo.bcb10d9a.mjs";import{a as n,b as a,o as r,e as s,f as c,h as _,t as p,u}from"./entry.a3c1f97f.mjs";import"./_plugin-vue_export-helper.7287ed4b.mjs";const h=n({__name:"index",setup(i){const e=a();return(m,l)=>{const t=o;return r(),s("div",null,[c(t),_(" "+p(u(e).user),1)])}}});export{h as default};

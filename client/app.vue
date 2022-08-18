@@ -1,5 +1,14 @@
+<script setup>
+const { appName } = useRuntimeConfig()
+
+useHead({
+  titleTemplate: (chunk) => (chunk ? `${chunk} - ${appName}` : appName),
+})
+</script>
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div class="antialiased min-h-screen flex flex-col">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>

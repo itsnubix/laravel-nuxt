@@ -1,13 +1,7 @@
 import { defineStore } from 'pinia'
 
-interface User {
-  id: number
-  name: string
-  email: string
-}
-
 interface State {
-  user: User | null
+  user: App.Models.User | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -18,12 +12,12 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async loadUser() {
       const { $api } = useApi()
-      const { data: user } = await $api.get('api/user')
+      const { data: user } = await $api.get('api/me')
 
       this.updateUser(user)
     },
 
-    updateUser(user: User) {
+    updateUser(user: App.Models.User) {
       this.user = user
       localStorage.setItem('store/auth/user', JSON.stringify(user))
     },

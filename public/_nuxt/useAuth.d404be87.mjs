@@ -1,0 +1,1 @@
+import{b as s,j as e,m as r}from"./entry.a3c1f97f.mjs";const g=()=>{const t=s(),{$api:o}=e();return{login:async a=>{await o.post("login",{...a}),await t.loadUser()},register:async a=>{await o.post("register",{...a}),await t.loadUser()},logout:async()=>{try{await o.delete("logout")}finally{t.clearUser()}return r("login")}}};export{g as u};
