@@ -11,13 +11,13 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async loadUser() {
-      const { $api } = useApi()
-      const { data: user } = await $api.get('api/me')
+      const { api } = useApi()
+      const { data: user } = await api.get('api/me')
 
       this.updateUser(user)
     },
 
-    updateUser(user: App.Models.User) {
+    updateUser(user) {
       this.user = user
       localStorage.setItem('store/auth/user', JSON.stringify(user))
     },

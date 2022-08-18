@@ -1,71 +1,32 @@
-import { AxiosError } from 'axios'
-import { Ref } from 'nuxt/dist/app/compat/capi'
-import { useAuthStore } from '../stores/auth'
-
-export interface ErrorBag extends Ref {
-  $message: string
-}
+import axios from 'axios'
 
 export const useApi = () => {
-  const createApiInstance = () => useNuxtApp().$api
+  const { apiBase } = useRuntimeConfig()
 
-  const createErrorBag = (errorsToHandle: string | Array<string>): ErrorBag => {
-    if (typeof errorsToHandle === 'string') {
-      errorsToHandle = [errorsToHandle]
-    }
+  const api = axios.create({
+    baseURL: apiBase,
+    withCredentials: true,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  })
 
-    let errors = []
+  // Handle CSRF Errors
+  api.interceptors.response.use(null, async (error) => {
+    switch (error.response?.status) {
+      case 419:
+        await api.get('sanctum/csrf-cookie')
 
-    errorsToHandle.forEach((error: string) => (errors[error] = ''))
+        return api.request(error.config)
 
-    return ref({
-      $message: '',
-      ...errors,
-    }) as ErrorBag
-  }
-
-  const clearErrors = (errorBag: ErrorBag) => {
-    for (const key in errorBag.value) {
-      errorBag.value[key] = ''
-    }
-  }
-
-  const handleErrors = (error: AxiosError, errorBag: ErrorBag) => {
-    const { data, status } = error.response
-
-    console.log(error, error.response)
-
-    errorBag.value.$message = data['message']
-
-    switch (status) {
-      case 401:
-        return handleUnauthenticatedErrors()
-      case 422:
-        return handleValidationErrors(data['errors'], errorBag)
       default:
-        throw error
+        return Promise.reject(error)
     }
-  }
-
-  const handleUnauthenticatedErrors = async () => {
-    const { clearUser } = useAuthStore()
-    await clearUser()
-
-    return navigateTo('login')
-  }
-
-  const handleValidationErrors = (errors: Object, errorBag: ErrorBag) => {
-    for (const key in errors) {
-      if (key in errorBag.value) {
-        errorBag.value[key] = errors[key]
-      }
-    }
-  }
+  })
 
   return {
-    clearErrors,
-    handleErrors,
-    createErrorBag,
-    $api: createApiInstance(),
+    api,
   }
 }

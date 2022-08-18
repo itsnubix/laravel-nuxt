@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     public: {
       appName: '',
       apiBase: '',
+      home: '/',
     },
   },
 

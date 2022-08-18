@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import { useAuthStore } from '@/stores/auth'
+
+const { login } = useAuth()
+const authStore = useAuthStore()
+const { clearErrors, handleErrors, createErrorBag } = useValidation()
+
 definePageMeta({
   layout: 'guest',
   middleware: 'guest',
 })
-
-const { login } = useAuth()
-const { clearErrors, handleErrors, createErrorBag } = useApi()
 
 const state = ref({ email: '', password: '' })
 
@@ -16,6 +19,7 @@ const authenticate = async () => {
 
   try {
     await login({ ...state.value })
+    await authStore.loadUser()
 
     return navigateTo('/')
   } catch (error) {
@@ -53,7 +57,7 @@ const authenticate = async () => {
             type="password"
             id="password"
             name="password"
-            placeholder="password"
+            placeholder="••••••••"
             class="w-full"
             v-model="state.password"
             required

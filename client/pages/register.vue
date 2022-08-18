@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+const { register } = useAuth()
+const { clearErrors, handleErrors, createErrorBag } = useValidation()
+
 definePageMeta({
   layout: 'guest',
   middleware: 'guest',
 })
-
-const { register } = useAuth()
-const { clearErrors, handleErrors, createErrorBag } = useApi()
 
 const state = ref({ name: '', email: '', password: '' })
 
@@ -67,7 +67,7 @@ const authenticate = async () => {
             type="password"
             id="password"
             name="password"
-            placeholder="password"
+            placeholder="••••••••"
             class="w-full"
             v-model="state.password"
             required

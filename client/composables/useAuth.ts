@@ -1,33 +1,50 @@
 import { useAuthStore } from '@/stores/auth'
-import { resolveDirective } from 'nuxt/dist/app/compat/capi'
 
 export const useAuth = () => {
-  const authStore = useAuthStore()
-  const { $api } = useApi()
+  const { api } = useApi()
+  const { loadUser, clearUser } = useAuthStore()
+  const { home } = useRuntimeConfig()
 
+  /**
+   * Login the user and redirect to the homepage
+   */
   const login = async (credentials: { email: string; password: string }) => {
-    await $api.post('login', { ...credentials })
-    await authStore.loadUser()
+    await api.post('login', { ...credentials })
+    await loadUser()
+
+    return navigateTo(home)
   }
 
+  /**
+   * Invalidate the session, clear the store, and redirec to the login page
+   */
   const logout = async () => {
-    try {
-      await $api.delete('logout')
-    } finally {
-      authStore.clearUser()
-    }
+    await api.delete('logout')
+    clearUser()
 
     return navigateTo('login')
   }
 
-  const register = async (user: App.Models.User) => {
-    await $api.post('register', { ...user })
-    await authStore.loadUser()
+  /**
+   * Register the user, load them and redirect to the homepage
+   */
+  const register = async (user: {
+    name: string
+    email: string
+    password: string
+  }) => {
+    await api.post('register', { ...user })
+    await loadUser()
+
+    return navigateTo(home)
   }
 
+  /**
+   * Request a password forgotten email
+   */
   const forgotPassword = async (email: string) => {
-    await $api.post('forgot-password')
+    await api.post('forgot-password', { email })
   }
 
-  return { login, register, logout }
+  return { login, register, logout, forgotPassword }
 }
