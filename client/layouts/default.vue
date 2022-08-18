@@ -1,6 +1,11 @@
+<script lang="ts" setup>
+const { logout } = useAuth()
+</script>
+
 <template>
   <div>
-    <NuxtLink to="/logout">Logout</NuxtLink>
+    <TopNavigation />
+    <button @click="logout">Logout</button>
     <slot />
   </div>
 </template>

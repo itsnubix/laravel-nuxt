@@ -4,6 +4,8 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
   ssr: false,
 
+  telemetry: false,
+
   mode: process.env.APP_ENV,
 
   srcDir: 'client',

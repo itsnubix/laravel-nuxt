@@ -5,20 +5,18 @@ definePageMeta({
 })
 
 const { login } = useAuth()
-const { createErrorBag, handleErrors } = useApi()
+const { clearErrors, handleErrors, createErrorBag } = useApi()
 
-const state = ref({
-  email: 'asdf@asdf',
-  password: 'asdf',
-})
+const state = ref({ email: '', password: '' })
 
 const errors = createErrorBag(['email', 'password'])
 
 const authenticate = async () => {
+  clearErrors(errors)
+
   try {
     await login({ email: state.value.email, password: state.value.password })
   } catch (error) {
-    console.log(error)
     handleErrors(error, errors)
   }
 }
@@ -26,9 +24,8 @@ const authenticate = async () => {
 
 <template>
   <div>
-    {{ errors.email }}
-    {{ state }}
     <h1 class="text-2xl font-medium text-center">Login</h1>
+    {{ errors.asdf }}
     <Card class="mt-2">
       <form method="post" v-on:submit.prevent="authenticate">
         <div>
@@ -43,6 +40,7 @@ const authenticate = async () => {
             autofocus
             required
           />
+          <FormError :value="errors.email" />
         </div>
 
         <div class="mt-4">
@@ -56,6 +54,7 @@ const authenticate = async () => {
             v-model="state.password"
             required
           />
+          <FormError :value="errors.password" />
         </div>
 
         <div class="mt-6">

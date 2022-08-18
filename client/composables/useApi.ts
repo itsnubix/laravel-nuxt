@@ -1,12 +1,12 @@
 import { AxiosError } from 'axios'
 import { Ref } from 'nuxt/dist/app/compat/capi'
 
+export interface ErrorBag extends Ref {
+  $message: string
+}
+
 export const useApi = () => {
   const createApiInstance = () => useNuxtApp().$api
-
-  interface ErrorBag extends Ref {
-    $message: string
-  }
 
   const createErrorBag = (errorsToHandle: string | Array<string>): ErrorBag => {
     if (typeof errorsToHandle === 'string') {
@@ -23,26 +23,28 @@ export const useApi = () => {
     }) as ErrorBag
   }
 
+  const clearErrors = (errorBag: ErrorBag) => {
+    for (const key in errorBag.value) {
+      errorBag.value[key] = ''
+    }
+  }
+
   const handleErrors = (error: AxiosError, errorBag: ErrorBag) => {
     const { data, status } = error.response
 
+    console.log(error, error.response)
+
+    errorBag.value.$message = data['message']
+
     switch (status) {
       case 422:
-        return handleValidationErrors(data['errors'], data['message'], errorBag)
+        return handleValidationErrors(data['errors'], errorBag)
       default:
         throw error
     }
   }
 
-  const handleValidationErrors = (
-    errors: Object,
-    message: string = '',
-    errorBag: ErrorBag,
-  ) => {
-    if (message) {
-      errorBag.$message = message
-    }
-
+  const handleValidationErrors = (errors: Object, errorBag: ErrorBag) => {
     for (const key in errors) {
       if (key in errorBag.value) {
         errorBag.value[key] = errors[key]
@@ -51,9 +53,9 @@ export const useApi = () => {
   }
 
   return {
+    clearErrors,
     handleErrors,
     createErrorBag,
-    handleValidationErrors,
     $api: createApiInstance(),
   }
 }
