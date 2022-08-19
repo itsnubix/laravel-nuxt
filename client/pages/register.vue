@@ -24,12 +24,14 @@ const authenticate = async () => {
 }
 </script>
 <template>
-  <div>
-    <NuxtLink to="/">
-      <ApplicationLogo class="mx-auto" />
-    </NuxtLink>
+  <div class="w-full">
+    <div class="text-center">
+      <NuxtLink to="/" class="inline-block">
+        <ApplicationLogo />
+      </NuxtLink>
+    </div>
 
-    <Card class="mt-6">
+    <Card class="mt-6 mx-auto">
       <form method="post" v-on:submit.prevent="authenticate">
         <div>
           <FormLabel for="name">Name</FormLabel>
