@@ -6,26 +6,31 @@ import { ref } from 'vue'
 
 const { clearNotification } = useNotifications()
 
-const props = defineProps<{
+const { notification } = defineProps<{
   notification: Notification
 }>()
 
-const show = ref(true)
+const show = ref(false)
+nextTick(() => (show.value = true))
 
 const dismiss = () => {
   show.value = false
+}
+
+if (!notification.important) {
+  setTimeout(() => dismiss(), 5000)
 }
 </script>
 
 <template>
   <transition
     enter-active-class="transform ease-out duration-300 transition"
-    enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+    enter-from-class="translate-y-4 opacity-0 sm:translate-y-0 sm:translate-x-2"
     enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
     leave-active-class="transition ease-in duration-100"
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
-    @after-leave="clearNotification(props.notification)"
+    @after-leave="clearNotification(notification)"
   >
     <div
       v-if="show"
@@ -51,7 +56,7 @@ const dismiss = () => {
             <button
               type="button"
               @click="dismiss"
-              class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <span class="sr-only">Close</span>
               <XIcon class="h-5 w-5" aria-hidden="true" />

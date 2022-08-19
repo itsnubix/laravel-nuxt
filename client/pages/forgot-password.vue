@@ -1,7 +1,14 @@
 <script lang="ts" setup>
 const { forgotPassword } = useAuth()
-const { clearErrors, createErrorBag, handleErrors } = useValidation()
 const { notify } = useNotifications()
+const {
+  isSubmitting,
+  startSubmit,
+  stopSubmit,
+  clearErrors,
+  createErrorBag,
+  handleErrors,
+} = useForm()
 
 definePageMeta({
   middleware: 'guest',
@@ -13,6 +20,7 @@ const state = ref({ email: '' })
 const errors = createErrorBag(['email'])
 
 const reset = async () => {
+  startSubmit()
   clearErrors(errors)
 
   try {
@@ -21,6 +29,8 @@ const reset = async () => {
     notify('Password reset sent.')
   } catch (error) {
     handleErrors(error, errors)
+  } finally {
+    stopSubmit()
   }
 }
 </script>
@@ -32,7 +42,7 @@ const reset = async () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 mx-auto">
+    <Card class="mt-6 max-w-md mx-auto">
       <p class="text-sm text-gray-600">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
@@ -55,7 +65,9 @@ const reset = async () => {
         </div>
 
         <div class="mt-6 flex items-center justify-end">
-          <FormButton type="submit">Email password reset link</FormButton>
+          <FormSubmit :is-loading="isSubmitting">
+            Email password reset link
+          </FormSubmit>
         </div>
       </form>
     </Card>

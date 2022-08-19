@@ -4,8 +4,8 @@ export const useNotifications = () => {
   const { addNotification, clearNotification, notifications } =
     useNotificationStore()
 
-  const notify = (message: string, title = '', persist = false) => {
-    addNotification({ id: notifications.length + 1, message, title, persist })
+  const notify = (message: string, title = '', important = false) => {
+    addNotification({ id: notifications.length + 1, message, title, important })
   }
 
   return {

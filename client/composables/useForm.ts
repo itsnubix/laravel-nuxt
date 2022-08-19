@@ -5,7 +5,13 @@ export interface ErrorBag extends Ref {
   $message: string
 }
 
-export const useValidation = () => {
+export const useForm = () => {
+  const isSubmitting = ref(false)
+
+  const startSubmit = () => (isSubmitting.value = true)
+
+  const stopSubmit = () => (isSubmitting.value = false)
+
   /**
    * Creates a validation error bag
    */
@@ -60,8 +66,11 @@ export const useValidation = () => {
   }
 
   return {
+    stopSubmit,
+    startSubmit,
     clearErrors,
     handleErrors,
+    isSubmitting,
     createErrorBag,
   }
 }

@@ -4,7 +4,7 @@ export interface Notification {
   id?: number
   title?: string
   message: string
-  persist: boolean
+  important: boolean
 }
 
 interface State {

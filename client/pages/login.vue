@@ -3,18 +3,27 @@ import { useAuthStore } from '@/stores/auth'
 
 const { login } = useAuth()
 const authStore = useAuthStore()
-const { clearErrors, handleErrors, createErrorBag } = useValidation()
+const {
+  isSubmitting,
+  startSubmit,
+  stopSubmit,
+  clearErrors,
+  handleErrors,
+  createErrorBag,
+} = useForm()
+const route = useRoute()
 
 definePageMeta({
   layout: 'guest',
   middleware: 'guest',
 })
 
-const state = ref({ email: '', password: '' })
+const state = ref({ email: route.query.email as string, password: '' })
 
 const errors = createErrorBag(['email', 'password'])
 
 const authenticate = async () => {
+  startSubmit()
   clearErrors(errors)
 
   try {
@@ -24,6 +33,8 @@ const authenticate = async () => {
     return navigateTo('/')
   } catch (error) {
     handleErrors(error, errors)
+  } finally {
+    stopSubmit()
   }
 }
 </script>
@@ -36,7 +47,7 @@ const authenticate = async () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 mx-auto">
+    <Card class="mt-6 max-w-md mx-auto">
       <form method="post" v-on:submit.prevent="authenticate">
         <div>
           <FormLabel for="email">Email</FormLabel>
@@ -44,7 +55,6 @@ const authenticate = async () => {
             type="email"
             id="email"
             name="email"
-            placeholder="Email"
             class="w-full"
             v-model="state.email"
             autofocus
@@ -59,7 +69,6 @@ const authenticate = async () => {
             type="password"
             id="password"
             name="password"
-            placeholder="••••••••"
             class="w-full"
             v-model="state.password"
             required
@@ -71,7 +80,7 @@ const authenticate = async () => {
           <NuxtLink to="forgot-password" class="mr-3 text-sm text-gray-700">
             Forgot your password?
           </NuxtLink>
-          <FormButton type="submit">Login</FormButton>
+          <FormSubmit :is-loading="isSubmitting">Login</FormSubmit>
         </div>
       </form>
     </Card>

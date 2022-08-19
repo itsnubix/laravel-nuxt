@@ -22,7 +22,7 @@ export const useAuth = () => {
     await api.delete('logout')
     clearUser()
 
-    return navigateTo('login')
+    return navigateTo('/login')
   }
 
   /**
@@ -46,5 +46,20 @@ export const useAuth = () => {
     await api.post('forgot-password', { email })
   }
 
-  return { login, register, logout, forgotPassword }
+  const resetPassword = async (resetRequest: {
+    email: string
+    token: string
+    password: string
+  }) => {
+    await api.post('reset-password', { ...resetRequest })
+
+    return navigateTo({
+      path: '/login',
+      query: {
+        email: resetRequest.email,
+      },
+    })
+  }
+
+  return { login, register, logout, forgotPassword, resetPassword }
 }

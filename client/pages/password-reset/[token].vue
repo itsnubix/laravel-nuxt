@@ -1,31 +1,38 @@
 <script lang="ts" setup>
-const { register } = useAuth()
+import { abort } from 'process'
+
+const { resetPassword } = useAuth()
 const {
   isSubmitting,
   startSubmit,
   stopSubmit,
   clearErrors,
-  handleErrors,
   createErrorBag,
+  handleErrors,
 } = useForm()
+const route = useRoute()
+const { notify } = useNotifications()
 
 definePageMeta({
-  layout: 'guest',
   middleware: 'guest',
+  layout: 'guest',
 })
 
-const state = ref({ name: '', email: '', password: '' })
+const errors = createErrorBag(['email', 'password'])
+const token = route.params.token as string
+const state = ref({ email: route.query.email as string, password: '' })
 
-const errors = createErrorBag(['name', 'email', 'password'])
-
-const authenticate = async () => {
+const reset = async () => {
   startSubmit()
   clearErrors(errors)
 
   try {
-    await register({ ...state.value })
+    const redirect = await resetPassword({ token, ...state.value })
+    notify('Password reset.')
 
-    return navigateTo('/')
+    console.log(redirect)
+
+    return redirect
   } catch (error) {
     handleErrors(error, errors)
   } finally {
@@ -42,22 +49,8 @@ const authenticate = async () => {
     </div>
 
     <Card class="mt-6 max-w-md mx-auto">
-      <form method="post" v-on:submit.prevent="authenticate">
+      <form method="post" v-on:submit.prevent="reset">
         <div>
-          <FormLabel for="name">Name</FormLabel>
-          <FormInput
-            type="text"
-            id="name"
-            name="name"
-            class="w-full"
-            v-model="state.name"
-            autofocus
-            required
-          />
-          <FormError :value="errors.name" />
-        </div>
-
-        <div class="mt-4">
           <FormLabel for="email">Email</FormLabel>
           <FormInput
             type="email"
@@ -71,28 +64,24 @@ const authenticate = async () => {
           <FormError :value="errors.email" />
         </div>
 
-        <div class="mt-4">
-          <FormLabel for="password">Password</FormLabel>
+        <div class="mt-6">
+          <FormLabel for="password">New password</FormLabel>
           <FormInput
             type="password"
             id="password"
             name="password"
             class="w-full"
             v-model="state.password"
+            autofocus
             required
           />
           <FormError :value="errors.password" />
         </div>
 
-        <div class="mt-6 flex justify-end">
-          <FormSubmit :is-loading="isSubmitting">Register</FormSubmit>
+        <div class="mt-6 flex items-center justify-end">
+          <FormSubmit :is-loading="isSubmitting"> Reset password </FormSubmit>
         </div>
       </form>
     </Card>
-
-    <div class="mt-8 text-center text-sm">
-      <p>Already have an account?</p>
-      <NuxtLink to="/login" class="underline">Login now</NuxtLink>
-    </div>
   </div>
 </template>
