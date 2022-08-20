@@ -85,7 +85,7 @@ const authenticate = async () => {
         </div>
 
         <div class="mt-6 flex justify-end">
-          <FormSubmit :is-loading="isSubmitting">Register</FormSubmit>
+          <FormSubmit :loading="isSubmitting">Register</FormSubmit>
         </div>
       </form>
     </Card>

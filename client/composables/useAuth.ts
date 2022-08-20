@@ -46,20 +46,30 @@ export const useAuth = () => {
     await api.post('forgot-password', { email })
   }
 
+  /**
+   * Reset the password
+   */
   const resetPassword = async (resetRequest: {
     email: string
     token: string
     password: string
   }) => {
     await api.post('reset-password', { ...resetRequest })
-
-    return navigateTo({
-      path: '/login',
-      query: {
-        email: resetRequest.email,
-      },
-    })
   }
 
-  return { login, register, logout, forgotPassword, resetPassword }
+  /**
+   * Send another email verification
+   */
+  const sendEmailVerification = async () => {
+    await api.post('email/verification-notification')
+  }
+
+  return {
+    login,
+    register,
+    logout,
+    forgotPassword,
+    resetPassword,
+    sendEmailVerification,
+  }
 }

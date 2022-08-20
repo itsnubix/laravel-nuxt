@@ -80,7 +80,7 @@ const authenticate = async () => {
           <NuxtLink to="forgot-password" class="mr-3 text-sm text-gray-700">
             Forgot your password?
           </NuxtLink>
-          <FormSubmit :is-loading="isSubmitting">Login</FormSubmit>
+          <FormSubmit :loading="isSubmitting">Login</FormSubmit>
         </div>
       </form>
     </Card>

@@ -1,6 +1,8 @@
 import axios from 'axios'
+import { useAuthStore } from '../stores/auth'
 
 export const useApi = () => {
+  const { authenticated, clearUser } = useAuthStore()
   const { apiBase } = useRuntimeConfig()
 
   const api = axios.create({
@@ -16,6 +18,8 @@ export const useApi = () => {
   // Handle CSRF Errors
   api.interceptors.response.use(null, async (error) => {
     switch (error.response?.status) {
+      case 401:
+        return authenticated && clearUser()
       case 419:
         await api.get('sanctum/csrf-cookie')
 

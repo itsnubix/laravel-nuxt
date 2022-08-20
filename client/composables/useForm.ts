@@ -6,16 +6,25 @@ export interface ErrorBag extends Ref {
 }
 
 export const useForm = () => {
+  const isSubmitted = ref(false)
   const isSubmitting = ref(false)
 
-  const startSubmit = () => (isSubmitting.value = true)
+  const startSubmit = () => {
+    isSubmitted.value = false
+    isSubmitting.value = true
+  }
 
-  const stopSubmit = () => (isSubmitting.value = false)
+  const stopSubmit = () => {
+    isSubmitted.value = true
+    isSubmitting.value = false
+  }
 
   /**
    * Creates a validation error bag
    */
-  const createErrorBag = (errorsToHandle: string | Array<string>): ErrorBag => {
+  const createErrorBag = (
+    errorsToHandle: string | Array<string> = [],
+  ): ErrorBag => {
     if (typeof errorsToHandle === 'string') {
       errorsToHandle = [errorsToHandle]
     }
@@ -67,8 +76,9 @@ export const useForm = () => {
 
   return {
     stopSubmit,
-    startSubmit,
     clearErrors,
+    isSubmitted,
+    startSubmit,
     handleErrors,
     isSubmitting,
     createErrorBag,

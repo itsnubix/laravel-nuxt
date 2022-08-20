@@ -18,8 +18,8 @@ export default defineNuxtConfig({
     // private vars here
 
     public: {
-      appName: '',
-      apiBase: '',
+      appName: process.env.APP_NAME,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
       home: '/',
     },
   },

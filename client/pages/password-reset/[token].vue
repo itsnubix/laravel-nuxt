@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { abort } from 'process'
+import { BadgeCheckIcon } from '@heroicons/vue/outline'
 
 const { resetPassword } = useAuth()
 const {
-  isSubmitting,
-  startSubmit,
   stopSubmit,
   clearErrors,
-  createErrorBag,
+  startSubmit,
+  isSubmitted,
   handleErrors,
+  isSubmitting,
+  createErrorBag,
 } = useForm()
 const route = useRoute()
-const { notify } = useNotifications()
 
 definePageMeta({
   middleware: 'guest',
@@ -20,19 +20,17 @@ definePageMeta({
 
 const errors = createErrorBag(['email', 'password'])
 const token = route.params.token as string
-const state = ref({ email: route.query.email as string, password: '' })
+const state = ref({
+  email: route.query.email as string,
+  password: '',
+})
 
 const reset = async () => {
   startSubmit()
   clearErrors(errors)
 
   try {
-    const redirect = await resetPassword({ token, ...state.value })
-    notify('Password reset.')
-
-    console.log(redirect)
-
-    return redirect
+    await resetPassword({ token, ...state.value })
   } catch (error) {
     handleErrors(error, errors)
   } finally {
@@ -79,9 +77,30 @@ const reset = async () => {
         </div>
 
         <div class="mt-6 flex items-center justify-end">
-          <FormSubmit :is-loading="isSubmitting"> Reset password </FormSubmit>
+          <FormSubmit :loading="isSubmitting"> Reset password </FormSubmit>
         </div>
       </form>
+
+      <Banner class="bg-green-600 text-white mt-10" :show="isSubmitted">
+        <span class="flex p-2 rounded-lg bg-green-800">
+          <BadgeCheckIcon class="h-6 w-6 text-white" aria-hidden="true" />
+        </span>
+        <p class="ml-3 font-medium text-white">
+          <strong>Password reset!</strong>
+        </p>
+
+        <div class="ml-auto">
+          <NuxtLink
+            :to="{
+              path: '/login',
+              query: { email: state.email },
+            }"
+            class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-600 bg-white hover:bg-green-50"
+          >
+            Login now
+          </NuxtLink>
+        </div>
+      </Banner>
     </Card>
   </div>
 </template>

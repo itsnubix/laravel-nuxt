@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { LockOpenIcon } from '@heroicons/vue/outline'
 const { forgotPassword } = useAuth()
-const { notify } = useNotifications()
 const {
+  isSubmitted,
   isSubmitting,
   startSubmit,
   stopSubmit,
@@ -25,8 +26,6 @@ const reset = async () => {
 
   try {
     await forgotPassword(state.value.email)
-
-    notify('Password reset sent.')
   } catch (error) {
     handleErrors(error, errors)
   } finally {
@@ -65,11 +64,21 @@ const reset = async () => {
         </div>
 
         <div class="mt-6 flex items-center justify-end">
-          <FormSubmit :is-loading="isSubmitting">
+          <FormSubmit :loading="isSubmitting">
             Email password reset link
           </FormSubmit>
         </div>
       </form>
+
+      <Banner class="bg-green-600 text-white mt-10" :show="isSubmitted">
+        <span class="flex p-2 rounded-lg bg-green-800">
+          <LockOpenIcon class="h-6 w-6 text-white" aria-hidden="true" />
+        </span>
+        <p class="ml-3 font-medium text-white">
+          <strong>Email sent!</strong>
+          Check your email to finish resetting your password.
+        </p>
+      </Banner>
     </Card>
   </div>
 </template>
