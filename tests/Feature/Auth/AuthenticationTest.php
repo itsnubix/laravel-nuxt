@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
@@ -32,6 +32,15 @@ class AuthenticationTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
+        $this->assertGuest();
+    }
+
+    public function test_users_can_logout()
+    {
+        $this->be(User::factory()->create());
+        $this->assertAuthenticated();
+
+        $this->delete('/logout')->assertNoContent();
         $this->assertGuest();
     }
 }
