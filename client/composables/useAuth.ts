@@ -9,7 +9,7 @@ export const useAuth = () => {
    * Login the user and redirect to the homepage
    */
   const login = async (credentials: { email: string; password: string }) => {
-    await api.post('login', { ...credentials })
+    const response = await api.post('login', { ...credentials })
     await loadUser()
 
     return navigateTo(home)

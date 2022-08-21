@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-import { Notification } from '@/stores/notifications'
-import { CheckCircleIcon } from '@heroicons/vue/outline'
+import { Notification, NotificationStatus } from '@/stores/notifications'
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  XCircleIcon,
+  AnnotationIcon,
+} from '@heroicons/vue/outline'
 import { XIcon } from '@heroicons/vue/solid'
 import { ref } from 'vue'
 
@@ -36,7 +41,23 @@ const dismiss = () => {
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <CheckCircleIcon
+              v-if="notification.status === NotificationStatus.Success"
               class="h-6 w-6 text-green-400"
+              aria-hidden="true"
+            />
+            <ExclamationCircleIcon
+              v-if="notification.status === NotificationStatus.Warn"
+              class="h-6 w-6 text-amber-400"
+              aria-hidden="true"
+            />
+            <XCircleIcon
+              v-if="notification.status === NotificationStatus.Error"
+              class="h-6 w-6 text-red-400"
+              aria-hidden="true"
+            />
+            <AnnotationIcon
+              v-else
+              class="h-6 w-6 text-blue-400"
               aria-hidden="true"
             />
           </div>
@@ -45,8 +66,8 @@ const dismiss = () => {
               v-if="notification.title"
               class="mb-1 text-sm font-medium text-gray-900"
               v-text="notification.title"
-            ></p>
-            <p class="text-sm text-gray-500" v-text="notification.message"></p>
+            />
+            <p class="text-sm text-gray-500" v-text="notification.message" />
           </div>
           <div class="ml-4 flex-shrink-0 flex">
             <button

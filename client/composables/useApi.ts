@@ -1,9 +1,11 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '@/stores/auth'
+import { NotificationStatus } from '../stores/notifications'
 
 export const useApi = () => {
-  const { authenticated, clearUser } = useAuthStore()
+  const { error: notifyError } = useNotifications()
   const { apiBase } = useRuntimeConfig()
+  const { authenticated, clearUser } = useAuthStore()
 
   const api = axios.create({
     baseURL: apiBase,
@@ -16,15 +18,15 @@ export const useApi = () => {
   })
 
   // Handle CSRF Errors
-  api.interceptors.response.use(null, async (error) => {
-    switch (error.response?.status) {
+  api.interceptors.response.use(null, async (error: AxiosError) => {
+    switch (error?.response?.status) {
       case 401:
         return authenticated && clearUser()
       case 419:
         await api.get('sanctum/csrf-cookie')
-
         return api.request(error.config)
-
+      case 500:
+        notifyError('Something went horribly wrong.', 'Oh no!')
       default:
         return Promise.reject(error)
     }

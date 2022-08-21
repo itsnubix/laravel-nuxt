@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/auth'
-
 const { login } = useAuth()
-const authStore = useAuthStore()
 const {
   isSubmitting,
   startSubmit,
@@ -28,7 +25,6 @@ const authenticate = async () => {
 
   try {
     await login({ ...state.value })
-    await authStore.loadUser()
 
     return navigateTo('/')
   } catch (error) {

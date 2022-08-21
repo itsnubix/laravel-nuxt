@@ -4,6 +4,14 @@ export interface Notification {
   id?: number
   title?: string
   message: string
+  status: NotificationStatus
+}
+
+export enum NotificationStatus {
+  Info,
+  Warn,
+  Success,
+  Error,
 }
 
 interface State {
