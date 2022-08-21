@@ -16,10 +16,6 @@ nextTick(() => (show.value = true))
 const dismiss = () => {
   show.value = false
 }
-
-if (!notification.important) {
-  setTimeout(() => dismiss(), 5000)
-}
 </script>
 
 <template>
@@ -37,14 +33,14 @@ if (!notification.important) {
       class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
     >
       <div class="p-4">
-        <div class="flex items-start">
+        <div class="flex items-center">
           <div class="flex-shrink-0">
             <CheckCircleIcon
               class="h-6 w-6 text-green-400"
               aria-hidden="true"
             />
           </div>
-          <div class="ml-3 w-0 flex-1 pt-0.5">
+          <div class="ml-3 w-0 flex-1">
             <p
               v-if="notification.title"
               class="mb-1 text-sm font-medium text-gray-900"

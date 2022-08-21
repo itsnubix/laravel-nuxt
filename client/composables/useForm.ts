@@ -33,10 +33,7 @@ export const useForm = () => {
 
     errorsToHandle.forEach((error: string) => (errors[error] = ''))
 
-    return ref({
-      $message: '',
-      ...errors,
-    }) as ErrorBag
+    return ref({ $message: '', ...errors }) as ErrorBag
   }
 
   /**

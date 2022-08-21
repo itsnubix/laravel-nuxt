@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { InboxInIcon } from '@heroicons/vue/outline'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const { verified } = useAuthStore()
 const { logout, sendEmailVerification } = useAuth()

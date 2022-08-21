@@ -2,7 +2,7 @@ import { useAuthStore } from '@/stores/auth'
 
 export const useAuth = () => {
   const { api } = useApi()
-  const { loadUser, clearUser } = useAuthStore()
+  const { loadUser, clearUser, authenticated } = useAuthStore()
   const { home } = useRuntimeConfig()
 
   /**
@@ -66,10 +66,11 @@ export const useAuth = () => {
 
   return {
     login,
-    register,
     logout,
-    forgotPassword,
+    register,
+    authenticated,
     resetPassword,
+    forgotPassword,
     sendEmailVerification,
   }
 }

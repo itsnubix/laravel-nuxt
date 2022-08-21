@@ -4,7 +4,6 @@ export interface Notification {
   id?: number
   title?: string
   message: string
-  important: boolean
 }
 
 interface State {
@@ -28,6 +27,12 @@ export const useNotificationStore = defineStore('notifications', {
         ),
         1,
       )
+    },
+  },
+
+  getters: {
+    hasNotifications({ notifications }): boolean {
+      return notifications.length > 0
     },
   },
 })

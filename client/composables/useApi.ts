@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 export const useApi = () => {
   const { authenticated, clearUser } = useAuthStore()
@@ -30,7 +30,5 @@ export const useApi = () => {
     }
   })
 
-  return {
-    api,
-  }
+  return { api }
 }

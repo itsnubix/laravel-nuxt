@@ -1,16 +1,21 @@
-import { useNotificationStore } from '~~/client/stores/notifications'
+import { useNotificationStore } from '@/stores/notifications'
 
 export const useNotifications = () => {
-  const { addNotification, clearNotification, notifications } =
-    useNotificationStore()
+  const {
+    addNotification,
+    clearNotification,
+    hasNotifications,
+    notifications,
+  } = useNotificationStore()
 
-  const notify = (message: string, title = '', important = false) => {
-    addNotification({ id: notifications.length + 1, message, title, important })
+  const notify = (message: string, title = '') => {
+    addNotification({ id: notifications.length + 1, message, title })
   }
 
   return {
     notify,
     notifications,
+    hasNotifications,
     clearNotification,
   }
 }
