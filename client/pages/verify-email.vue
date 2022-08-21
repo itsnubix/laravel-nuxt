@@ -31,10 +31,6 @@ const resend = async () => {
     stopSubmit()
   }
 }
-
-if (verified) {
-  navigateTo('/')
-}
 </script>
 
 <template>

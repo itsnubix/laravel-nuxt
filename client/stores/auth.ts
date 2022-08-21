@@ -10,11 +10,13 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async loadUser() {
+    async loadUser(): Promise<App.Models.User> {
       const { api } = useApi()
       const { data: user } = await api.get('api/me')
 
       this.updateUser(user)
+
+      return user
     },
 
     updateUser(user) {

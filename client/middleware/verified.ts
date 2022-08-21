@@ -1,15 +1,19 @@
 import { useAuthStore } from '@/stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const { verified, loadUser } = useAuthStore()
   const route = useRoute()
+  const { verified, authenticated, loadUser } = useAuthStore()
 
-  if (verified) {
+  if (authenticated && verified) {
     return
   }
 
   if (route.query.verified) {
-    await loadUser()
+    const user = await loadUser()
+
+    if (user.email_verified_at) {
+      return
+    }
   }
 
   return navigateTo('/verify-email')

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
 
-const { notify } = useNotifications()
 const { login } = useAuth()
 const authStore = useAuthStore()
 const {
@@ -22,8 +21,6 @@ definePageMeta({
 const state = ref({ email: route.query.email as string, password: '' })
 
 const errors = createErrorBag(['email', 'password'])
-
-notify('asdf')
 
 const authenticate = async () => {
   startSubmit()
