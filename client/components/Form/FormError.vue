@@ -16,7 +16,7 @@ const errors = computed(() => {
 
 <template>
   <ul v-if="errors.length > 0">
-    <li v-for="error in errors" :key="error" class="text-red-600 text-xs mt-1">
+    <li v-for="error in errors" :key="error" class="mt-1 text-xs text-red-600">
       {{ error }}
     </li>
   </ul>

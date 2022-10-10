@@ -30,7 +30,7 @@ const reset = () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 max-w-md mx-auto">
+    <Card class="mx-auto mt-6 max-w-md">
       <form method="post" @submit.prevent="reset">
         <div>
           <FormLabel for="email">Email</FormLabel>

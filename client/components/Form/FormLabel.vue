@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <label
     :class="[
-      hidden ? 'sr-only' : 'block text-sm font-medium text-slate-700 mb-1',
+      hidden ? 'sr-only' : 'mb-1 block text-sm font-medium text-slate-700',
     ]"
   >
     <slot />

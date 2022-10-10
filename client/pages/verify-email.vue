@@ -20,7 +20,7 @@ const resend = () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 max-w-md mx-auto">
+    <Card class="mx-auto mt-6 max-w-md">
       <form method="post" @submit.prevent="resend">
         <div className="mb-4 text-sm text-slate-600">
           Thanks for signing up! Before getting started, could you verify your

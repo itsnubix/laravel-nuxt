@@ -15,11 +15,11 @@ const links = [{ label: 'Home', href: '/' }]
 </script>
 
 <template>
-  <Disclosure as="nav" class="bg-white shadow relative" v-slot="{ open }">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+  <Disclosure as="nav" class="relative bg-white shadow" v-slot="{ open }">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 justify-between">
         <div class="flex">
-          <div class="flex-shrink-0 flex items-center">
+          <div class="flex flex-shrink-0 items-center">
             <ApplicationLogo class="h-8 w-8" />
           </div>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -28,10 +28,10 @@ const links = [{ label: 'Home', href: '/' }]
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <!-- Profile dropdown -->
-          <Menu as="div" class="ml-3 relative">
+          <Menu as="div" class="relative ml-3">
             <div>
               <MenuButton
-                class="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 <span class="sr-only">Open user menu</span>
                 <img
@@ -50,13 +50,13 @@ const links = [{ label: 'Home', href: '/' }]
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <MenuItem v-slot="{ active }">
                   <button
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700 text-left w-full',
+                      'block w-full px-4 py-2 text-left text-sm text-gray-700',
                     ]"
                     type="button"
                     @click="logout"
@@ -72,7 +72,7 @@ const links = [{ label: 'Home', href: '/' }]
         <div class="-mr-2 flex items-center sm:hidden">
           <!-- Mobile menu button -->
           <DisclosureButton
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
           >
             <span class="sr-only">Open main menu</span>
             <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
@@ -83,14 +83,14 @@ const links = [{ label: 'Home', href: '/' }]
     </div>
 
     <DisclosurePanel class="sm:hidden">
-      <div class="pt-2 pb-3 space-y-1">
+      <div class="space-y-1 pt-2 pb-3">
         <NavbarResponsiveItem v-for="link in links" :value="link" />
       </div>
 
-      <div class="pt-4 pb-3 border-t border-gray-200">
+      <div class="border-t border-gray-200 pt-4 pb-3">
         <div class="mt-3 space-y-1">
           <DisclosureButton
-            class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 text-left w-full"
+            class="block w-full px-4 py-2 text-left text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
             @click="logout"
           >
             Sign out

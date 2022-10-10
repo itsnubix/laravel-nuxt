@@ -38,10 +38,10 @@ watch(
       <component
         v-if="icon && !loading && !showCheck"
         :is="icon"
-        class="w-5 h-5"
+        class="h-5 w-5"
       />
-      <Loading v-else-if="loading && !showCheck" class="w-5 h-5" />
-      <CheckIcon v-else-if="showCheck" class="w-5 h-5" />
+      <Loading v-else-if="loading && !showCheck" class="h-5 w-5" />
+      <CheckIcon v-else-if="showCheck" class="h-5 w-5" />
     </div>
   </FormButton>
 </template>

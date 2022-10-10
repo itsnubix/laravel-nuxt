@@ -19,7 +19,7 @@ const reset = () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 max-w-md mx-auto">
+    <Card class="mx-auto mt-6 max-w-md">
       <p class="text-sm text-slate-600">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
@@ -27,7 +27,7 @@ const reset = () => {
       </p>
 
       <div v-if="form.successful.value" class="mt-6 text-sm">
-        <span class="font-medium block font-slate-700">
+        <span class="font-slate-700 block font-medium">
           Password reset link sent.
         </span>
 

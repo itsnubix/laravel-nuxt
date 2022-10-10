@@ -20,7 +20,7 @@ const authenticate = () => {
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 max-w-md mx-auto">
+    <Card class="mx-auto mt-6 max-w-md">
       <Form @submit.prevent="authenticate">
         <div class="col-span-6">
           <FormLabel for="name">Name</FormLabel>
