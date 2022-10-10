@@ -95,7 +95,7 @@ definePageMeta({ layout: 'guest' })
 
           <div class="border-t border-gray-200 p-6">
             <div class="flex items-center">
-              <ChatBubbleBottomCenterTextIcon class="h-5 w-8 text-gray-500" />
+              <ChatBubbleBottomCenterTextIcon class="h-8 w-8 text-gray-500" />
               <div class="ml-4 text-lg font-semibold leading-7">
                 <a
                   href="https://laravel-news.com/"
