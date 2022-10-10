@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Middleware;
 
-use Tests\TestCase;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Http\Middleware\RedirectIfAuthenticated;
+use Tests\TestCase;
 
 class RedirectIfAuthenticatedTest extends TestCase
 {

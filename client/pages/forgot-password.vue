@@ -1,36 +1,14 @@
 <script lang="ts" setup>
-import { LockOpenIcon } from '@heroicons/vue/outline'
+const form = useForm({ email: '' })
 const { forgotPassword } = useAuth()
-const {
-  isSubmitted,
-  isSubmitting,
-  startSubmit,
-  stopSubmit,
-  clearErrors,
-  createErrorBag,
-  handleErrors,
-} = useForm()
 
-definePageMeta({
-  middleware: 'guest',
-  layout: 'guest',
-})
+useHead({ title: 'Forgot Password' })
+definePageMeta({ middleware: 'guest', layout: 'guest' })
 
-const state = ref({ email: '' })
-
-const errors = createErrorBag(['email'])
-
-const reset = async () => {
-  startSubmit()
-  clearErrors(errors)
-
-  try {
-    await forgotPassword(state.value.email)
-  } catch (error) {
-    handleErrors(error, errors)
-  } finally {
-    stopSubmit()
-  }
+const reset = () => {
+  form.submit(async () => {
+    await forgotPassword(form.fields.value.email)
+  })
 }
 </script>
 <template>
@@ -42,13 +20,27 @@ const reset = async () => {
     </div>
 
     <Card class="mt-6 max-w-md mx-auto">
-      <p class="text-sm text-gray-600">
+      <p class="text-sm text-slate-600">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
         choose a new one.
       </p>
 
-      <form class="mt-6" method="post" v-on:submit.prevent="reset">
+      <div v-if="form.successful.value" class="mt-6 text-sm">
+        <span class="font-medium block font-slate-700">
+          Password reset link sent.
+        </span>
+
+        <p class="mr-3 text-slate-500">
+          Please check your email inbox for further details.
+        </p>
+      </div>
+      <form
+        v-else-if="!form.successful.value"
+        class="mt-6"
+        method="post"
+        @submit.prevent="reset"
+      >
         <div>
           <FormLabel for="email">Email</FormLabel>
           <FormInput
@@ -56,29 +48,22 @@ const reset = async () => {
             id="email"
             name="email"
             class="w-full"
-            v-model="state.email"
+            v-model="form.fields.value.email"
             autofocus
             required
           />
-          <FormError :value="errors.email" />
+          <FormError :value="form.errors.value.email" />
         </div>
 
         <div class="mt-6 flex items-center justify-end">
-          <FormSubmit :loading="isSubmitting">
+          <FormSubmit
+            :loading="form.submitting.value"
+            :success="form.successful.value"
+          >
             Email password reset link
           </FormSubmit>
         </div>
       </form>
-
-      <Banner class="bg-green-600 text-white mt-10" :show="isSubmitted">
-        <span class="flex p-2 rounded-lg bg-green-800">
-          <LockOpenIcon class="h-6 w-6 text-white" aria-hidden="true" />
-        </span>
-        <p class="ml-3 font-medium text-white">
-          <strong>Email sent!</strong>
-          Check your email to finish resetting your password.
-        </p>
-      </Banner>
     </Card>
   </div>
 </template>

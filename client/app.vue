@@ -6,11 +6,13 @@ useHead({
 })
 </script>
 <template>
-  <div class="antialiased min-h-screen flex flex-col">
+  <div>
+    <Html class="h-full" />
+    <Body
+      class="flex min-h-full flex-col font-sans text-gray-600 antialiased"
+    />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-
-    <NotificationContainer />
   </div>
 </template>

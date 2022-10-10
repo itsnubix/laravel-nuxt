@@ -8,13 +8,10 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/vue'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const { logout } = useAuth()
-
-const state = ref({
-  links: [{ label: 'Home', href: '/' }],
-})
+const links = [{ label: 'Home', href: '/' }]
 </script>
 
 <template>
@@ -26,7 +23,7 @@ const state = ref({
             <ApplicationLogo class="h-8 w-8" />
           </div>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <NavbarItem v-for="link in state.links" :value="link" />
+            <NavbarItem v-for="link in links" :value="link" />
           </div>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
@@ -61,6 +58,7 @@ const state = ref({
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700 text-left w-full',
                     ]"
+                    type="button"
                     @click="logout"
                   >
                     Sign out
@@ -77,8 +75,8 @@ const state = ref({
             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
           >
             <span class="sr-only">Open main menu</span>
-            <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-            <XIcon v-else class="block h-6 w-6" aria-hidden="true" />
+            <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
+            <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
           </DisclosureButton>
         </div>
       </div>
@@ -86,7 +84,7 @@ const state = ref({
 
     <DisclosurePanel class="sm:hidden">
       <div class="pt-2 pb-3 space-y-1">
-        <NavbarResponsiveItem v-for="link in state.links" :value="link" />
+        <NavbarResponsiveItem v-for="link in links" :value="link" />
       </div>
 
       <div class="pt-4 pb-3 border-t border-gray-200">

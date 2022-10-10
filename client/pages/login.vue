@@ -1,37 +1,17 @@
 <script lang="ts" setup>
-const { login } = useAuth()
-const {
-  isSubmitting,
-  startSubmit,
-  stopSubmit,
-  clearErrors,
-  handleErrors,
-  createErrorBag,
-} = useForm()
+useHead({ title: 'Login' })
+definePageMeta({ layout: 'guest', middleware: 'guest' })
+
 const route = useRoute()
+const { login } = useAuth()
+const form = useForm({ email: route.query.email ?? '', password: '' })
 
-definePageMeta({
-  layout: 'guest',
-  middleware: 'guest',
-})
-
-const state = ref({ email: route.query.email as string, password: '' })
-
-const errors = createErrorBag(['email', 'password'])
-
-const authenticate = async () => {
-  startSubmit()
-  clearErrors(errors)
-
-  try {
-    await login({ ...state.value })
+const authenticate = () => {
+  form.submit(async () => {
+    await login(form.fields.value)
 
     return navigateTo('/')
-  } catch (error) {
-    handleErrors(error, errors)
-  } finally {
-    stopSubmit()
-  }
+  })
 }
 </script>
 
@@ -39,49 +19,54 @@ const authenticate = async () => {
   <div class="w-full">
     <div class="text-center">
       <NuxtLink to="/" class="inline-block">
-        <ApplicationLogo />
+        <ApplicationLogo size="lg" />
       </NuxtLink>
     </div>
 
-    <Card class="mt-6 max-w-md mx-auto">
-      <form method="post" v-on:submit.prevent="authenticate">
-        <div>
+    <Card class="mx-auto mt-4 max-w-md">
+      <Form @submit.prevent="authenticate">
+        <div class="sm:col-span-6">
           <FormLabel for="email">Email</FormLabel>
           <FormInput
             type="email"
             id="email"
             name="email"
             class="w-full"
-            v-model="state.email"
+            v-model="form.fields.value.email"
             autofocus
             required
           />
-          <FormError :value="errors.email" />
+          <FormError :value="form.errors.value.email" />
         </div>
 
-        <div class="mt-4">
+        <div class="sm:col-span-6">
           <FormLabel for="password">Password</FormLabel>
           <FormInput
             type="password"
             id="password"
             name="password"
             class="w-full"
-            v-model="state.password"
+            v-model="form.fields.value.password"
             required
           />
-          <FormError :value="errors.password" />
+          <FormError :value="form.errors.value.password" />
         </div>
 
-        <div class="mt-6 flex items-center justify-end">
-          <NuxtLink to="forgot-password" class="mr-3 text-sm text-gray-700">
+        <div class="col-span-6 flex items-center justify-between">
+          <FormSubmit
+            :loading="form.submitting.value"
+            :success="form.successful.value"
+          >
+            Login
+          </FormSubmit>
+          <NuxtLink to="forgot-password" class="ml-3 text-sm text-slate-700">
             Forgot your password?
           </NuxtLink>
-          <FormSubmit :loading="isSubmitting">Login</FormSubmit>
         </div>
-      </form>
+      </Form>
     </Card>
 
-    <div class="mt-8 text-center text-sm">
+    <div class="mt-8 text-center text-sm text-gray-500">
       <p>Don't have an account?</p>
       <NuxtLink to="/register" class="underline">Create one now</NuxtLink>
     </div>

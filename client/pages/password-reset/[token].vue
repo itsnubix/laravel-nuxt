@@ -1,41 +1,25 @@
 <script lang="ts" setup>
-import { BadgeCheckIcon } from '@heroicons/vue/outline'
+useHead({ title: 'Reset your password' })
+definePageMeta({ layout: 'guest', middleware: 'guest' })
 
-const { resetPassword } = useAuth()
-const {
-  stopSubmit,
-  clearErrors,
-  startSubmit,
-  isSubmitted,
-  handleErrors,
-  isSubmitting,
-  createErrorBag,
-} = useForm()
 const route = useRoute()
-
-definePageMeta({
-  middleware: 'guest',
-  layout: 'guest',
-})
-
-const errors = createErrorBag(['email', 'password'])
-const token = route.params.token as string
-const state = ref({
-  email: route.query.email as string,
+const { login, resetPassword } = useAuth()
+const form = useForm({
+  email: route.query.email,
   password: '',
+  password_confirmation: '',
 })
 
-const reset = async () => {
-  startSubmit()
-  clearErrors(errors)
+const reset = () => {
+  form.submit(async () => {
+    await resetPassword({ token: route.params.token, ...form.fields.value })
+    await login({
+      email: form.fields.value.email,
+      password: form.fields.value.password,
+    })
 
-  try {
-    await resetPassword({ token, ...state.value })
-  } catch (error) {
-    handleErrors(error, errors)
-  } finally {
-    stopSubmit()
-  }
+    return navigateTo('/')
+  })
 }
 </script>
 <template>
@@ -47,7 +31,7 @@ const reset = async () => {
     </div>
 
     <Card class="mt-6 max-w-md mx-auto">
-      <form method="post" v-on:submit.prevent="reset">
+      <form method="post" @submit.prevent="reset">
         <div>
           <FormLabel for="email">Email</FormLabel>
           <FormInput
@@ -55,11 +39,11 @@ const reset = async () => {
             id="email"
             name="email"
             class="w-full"
-            v-model="state.email"
+            v-model="form.fields.value.email"
             autofocus
             required
           />
-          <FormError :value="errors.email" />
+          <FormError :value="form.errors.value.email" />
         </div>
 
         <div class="mt-6">
@@ -69,38 +53,34 @@ const reset = async () => {
             id="password"
             name="password"
             class="w-full"
-            v-model="state.password"
-            autofocus
+            v-model="form.fields.value.password"
             required
           />
-          <FormError :value="errors.password" />
+          <FormError :value="form.errors.value.password" />
+        </div>
+
+        <div class="mt-6">
+          <FormLabel for="password">Confirm password</FormLabel>
+          <FormInput
+            type="password"
+            id="password_confirmation"
+            name="password_confirmation"
+            class="w-full"
+            v-model="form.fields.value.password_confirmation"
+            required
+          />
+          <FormError :value="form.errors.value.password_confirmation" />
         </div>
 
         <div class="mt-6 flex items-center justify-end">
-          <FormSubmit :loading="isSubmitting"> Reset password </FormSubmit>
+          <FormSubmit
+            :loading="form.submitting.value"
+            :success="form.successful.value"
+          >
+            Reset password
+          </FormSubmit>
         </div>
       </form>
-
-      <Banner class="bg-green-600 text-white mt-10" :show="isSubmitted">
-        <span class="flex p-2 rounded-lg bg-green-800">
-          <BadgeCheckIcon class="h-6 w-6 text-white" aria-hidden="true" />
-        </span>
-        <p class="ml-3 font-medium text-white">
-          <strong>Password reset!</strong>
-        </p>
-
-        <div class="ml-auto">
-          <NuxtLink
-            :to="{
-              path: '/login',
-              query: { email: state.email },
-            }"
-            class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-green-600 bg-white hover:bg-green-50"
-          >
-            Login now
-          </NuxtLink>
-        </div>
-      </Banner>
     </Card>
   </div>
 </template>

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Middleware;
 
-use Tests\TestCase;
 use App\Http\Middleware\Authenticate;
+use Tests\TestCase;
 
 class AuthenticateTest extends TestCase
 {

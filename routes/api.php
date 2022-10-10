@@ -19,4 +19,4 @@ Route::get('/', fn () => [
     'datetime' => now(),
 ]);
 
-Route::middleware(['auth:sanctum'])->get('/me', fn (Request $request) =>$request->user());
+Route::middleware(['auth:sanctum'])->get('/me', fn (Request $request) => $request->user());

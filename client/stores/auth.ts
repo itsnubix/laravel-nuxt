@@ -1,32 +1,46 @@
 import { defineStore } from 'pinia'
 
 interface State {
-  user: App.Models.User | null
+  user?: App.Models.User
+}
+
+const USER_STORAGE_KEY = 'store/auth/user'
+
+function retrieveUser(): null | App.Models.User {
+  try {
+    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) as App.Models.User
+  } catch {
+    useAuthStore().clearUser()
+    return null
+  }
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): State => ({
-    user: JSON.parse(localStorage.getItem('store/auth/user')),
+    user: retrieveUser(),
   }),
 
   actions: {
     async loadUser(): Promise<App.Models.User> {
-      const { api } = useApi()
-      const { data: user } = await api.get('api/me')
+      const user = await useAuth().user()
 
       this.updateUser(user)
 
       return user
     },
 
-    updateUser(user) {
+    updateUser(user: App.Models.User) {
       this.user = user
-      localStorage.setItem('store/auth/user', JSON.stringify(user))
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user))
     },
 
     clearUser() {
       this.user = null
-      localStorage.removeItem('store/auth/user')
+      localStorage.removeItem(USER_STORAGE_KEY)
+    },
+
+    clearAll() {
+      this.clearUser()
     },
   },
 

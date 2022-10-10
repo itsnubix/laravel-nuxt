@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Auth;
 
-use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
+use Tests\TestCase;
 
 class EmailVerificationTest extends TestCase
 {

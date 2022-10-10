@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Middleware;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Models\User;
+use Tests\TestCase;
 
 class EnsureEmailIsVerifiedTest extends TestCase
 {

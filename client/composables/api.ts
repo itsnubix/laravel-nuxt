@@ -1,11 +1,9 @@
-import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '@/stores/auth'
-import { NotificationStatus } from '../stores/notifications'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const useApi = () => {
-  const { error: notifyError } = useNotifications()
+  const authStore = useAuthStore()
   const { apiBase } = useRuntimeConfig()
-  const { authenticated, clearUser } = useAuthStore()
 
   const api = axios.create({
     baseURL: apiBase,
@@ -17,16 +15,33 @@ export const useApi = () => {
     },
   })
 
+  // Check if service is offline
+  api.interceptors.request.use((config) => {
+    if (!window.navigator.onLine) {
+      console.log('cache requests to sync later')
+    }
+
+    return config
+  })
+
   // Handle CSRF Errors
+  let attempts = 0
   api.interceptors.response.use(null, async (error: AxiosError) => {
+    attempts += 1
+
+    if (attempts > 3) {
+      return Promise.reject(error)
+    }
+
     switch (error?.response?.status) {
       case 401:
-        return authenticated && clearUser()
+        if (authStore.authenticated) {
+          authStore.clearUser()
+        }
+        return (location.href = '/login')
       case 419:
         await api.get('sanctum/csrf-cookie')
         return api.request(error.config)
-      case 500:
-        notifyError('Something went horribly wrong.', 'Oh no!')
       default:
         return Promise.reject(error)
     }

@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/auth'
-
-const { user } = useAuthStore()
-definePageMeta({
-  middleware: ['auth', 'verified'],
-})
+definePageMeta({ middleware: ['auth', 'verified'] })
 </script>
 
 <template>

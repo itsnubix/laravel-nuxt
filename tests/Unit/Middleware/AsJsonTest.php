@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Middleware;
 
-use Tests\TestCase;
 use App\Http\Middleware\AsJson;
+use Tests\TestCase;
 
 class AsJsonTest extends TestCase
 {

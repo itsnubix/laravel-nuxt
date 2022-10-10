@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
 use Based\TypeScript\Generators\ModelGenerator;
+use Illuminate\Database\Eloquent\Model;
 
 return [
     'generators' => [
