@@ -2,12 +2,17 @@
 import { CheckIcon } from '@heroicons/vue/20/solid'
 const props = withDefaults(
   defineProps<{
-    loading?: boolean
     loaded?: boolean
+    loading?: boolean
     success?: boolean
     type?: 'button' | 'submit'
   }>(),
-  { type: 'submit' },
+  {
+    loaded: false,
+    loading: false,
+    success: false,
+    type: 'submit',
+  },
 )
 
 const showCheck = ref(false)

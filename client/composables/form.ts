@@ -5,11 +5,15 @@ export interface ErrorBag extends Ref {
   $message: string
 }
 
-export const useForm = (fields: any = {}) => {
+export function useForm(fields: any = {}) {
+  if (typeof fields !== 'object') {
+    throw new Error('Fields must be an object')
+  }
+
   const original = { ...fields }
 
   // Create an error bag for each field
-  const createErrorBag = (): ErrorBag => {
+  function createErrorBag(): ErrorBag {
     let errors = []
 
     Object.keys(fields).forEach((error: string) => (errors[error] = ''))
@@ -18,7 +22,7 @@ export const useForm = (fields: any = {}) => {
   }
 
   // handle validation errors
-  const handleValidationErrors = (errors: any) => {
+  function handleValidationErrors(errors: any) {
     for (const key in errors) {
       if (key in fieldsRef.value) {
         errorsRef.value[key] = errors[key]

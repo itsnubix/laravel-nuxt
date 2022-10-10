@@ -6,12 +6,8 @@ const route = useRoute()
 const { login } = useAuth()
 const form = useForm({ email: route.query.email ?? '', password: '' })
 
-const authenticate = () => {
-  form.submit(async () => {
-    await login(form.fields.value)
-
-    return navigateTo('/home')
-  })
+function authenticate() {
+  form.submit(async () => await login(form.fields.value))
 }
 </script>
 

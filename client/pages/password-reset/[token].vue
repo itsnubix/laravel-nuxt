@@ -10,15 +10,13 @@ const form = useForm({
   password_confirmation: '',
 })
 
-const reset = () => {
+function reset() {
   form.submit(async () => {
     await resetPassword({ token: route.params.token, ...form.fields.value })
     await login({
       email: form.fields.value.email,
       password: form.fields.value.password,
     })
-
-    return navigateTo('/home')
   })
 }
 </script>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps<{
-  value?: string | Array<string>
-}>()
+const props = defineProps<{ value?: string | string[] }>()
 
 const errors = computed(() => {
   if (!props.value) {

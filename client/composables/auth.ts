@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/auth'
 import { AxiosResponse } from 'axios'
 
-export const useAuth = () => {
+export function useAuth() {
   const { api } = useApi()
   const authStore = useAuthStore()
   const { home } = useRuntimeConfig()

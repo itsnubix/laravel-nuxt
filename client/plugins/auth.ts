@@ -1,5 +1,1 @@
-export default defineNuxtPlugin((app) => {
-  return {
-    provide: { auth: useAuth().$store },
-  }
-})
+export default defineNuxtPlugin((app) => ({ provide: { auth: useAuth() } }))

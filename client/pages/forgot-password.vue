@@ -5,10 +5,8 @@ const { forgotPassword } = useAuth()
 useHead({ title: 'Forgot Password' })
 definePageMeta({ middleware: 'guest', layout: 'guest' })
 
-const reset = () => {
-  form.submit(async () => {
-    await forgotPassword(form.fields.value.email)
-  })
+function reset() {
+  form.submit(async () => await forgotPassword(form.fields.value.email))
 }
 </script>
 <template>

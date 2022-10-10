@@ -10,7 +10,6 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const { logout } = useAuth()
 const links = [{ label: 'Home', href: '/' }]
 </script>
 
@@ -59,7 +58,7 @@ const links = [{ label: 'Home', href: '/' }]
                       'block w-full px-4 py-2 text-left text-sm text-gray-700',
                     ]"
                     type="button"
-                    @click="logout"
+                    @click="$auth.logout"
                   >
                     Sign out
                   </button>
@@ -91,7 +90,7 @@ const links = [{ label: 'Home', href: '/' }]
         <div class="mt-3 space-y-1">
           <DisclosureButton
             class="block w-full px-4 py-2 text-left text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-            @click="logout"
+            @click="$auth.logout"
           >
             Sign out
           </DisclosureButton>

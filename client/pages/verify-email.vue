@@ -5,10 +5,8 @@ definePageMeta({ layout: 'guest', middleware: 'auth' })
 const form = useForm()
 const { logout, sendEmailVerification } = useAuth()
 
-const resend = () => {
-  form.submit(async () => {
-    await sendEmailVerification()
-  })
+function resend() {
+  form.submit(async () => await sendEmailVerification())
 }
 </script>
 

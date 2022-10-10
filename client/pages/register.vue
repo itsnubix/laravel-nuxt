@@ -4,12 +4,8 @@ definePageMeta({ layout: 'guest', middleware: 'guest' })
 
 const { register } = useAuth()
 const form = useForm({ name: '', email: '', password: '' })
-const authenticate = () => {
-  form.submit(async () => {
-    await register(form.fields.value)
-
-    return navigateTo('/home')
-  })
+function authenticate() {
+  form.submit(async () => await register(form.fields.value))
 }
 </script>
 <template>
