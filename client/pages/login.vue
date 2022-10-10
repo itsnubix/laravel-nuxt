@@ -10,7 +10,7 @@ const authenticate = () => {
   form.submit(async () => {
     await login(form.fields.value)
 
-    return navigateTo('/')
+    return navigateTo('/home')
   })
 }
 </script>
@@ -19,7 +19,7 @@ const authenticate = () => {
   <div class="w-full">
     <div class="text-center">
       <NuxtLink to="/" class="inline-block">
-        <ApplicationLogo size="lg" />
+        <ApplicationLogo />
       </NuxtLink>
     </div>
 
@@ -59,7 +59,7 @@ const authenticate = () => {
           >
             Login
           </FormSubmit>
-          <NuxtLink to="forgot-password" class="ml-3 text-sm text-slate-700">
+          <NuxtLink to="forgot-password" class="ml-3 text-sm text-gray-700">
             Forgot your password?
           </NuxtLink>
         </div>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+useHead({ title: 'Home' })
 definePageMeta({ middleware: ['auth', 'verified'] })
 </script>
 

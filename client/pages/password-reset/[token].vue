@@ -18,7 +18,7 @@ const reset = () => {
       password: form.fields.value.password,
     })
 
-    return navigateTo('/')
+    return navigateTo('/home')
   })
 }
 </script>

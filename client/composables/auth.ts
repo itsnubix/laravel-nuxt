@@ -7,6 +7,11 @@ export const useAuth = () => {
   const { home } = useRuntimeConfig()
 
   return {
+    $store: authStore,
+    user: authStore.user,
+    verified: authStore.verified,
+    authenticated: authStore.authenticated,
+
     async login(credentials: { email: string; password: string }) {
       await api.post('login', { ...credentials })
       await authStore.loadUser()
@@ -58,7 +63,7 @@ export const useAuth = () => {
       await api.post('email/verification-notification')
     },
 
-    async user() {
+    async getAuthenticatedUser() {
       return ((await api.get('api/me')) as AxiosResponse).data
     },
   }

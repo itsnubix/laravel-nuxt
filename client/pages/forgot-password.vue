@@ -20,18 +20,18 @@ const reset = () => {
     </div>
 
     <Card class="mx-auto mt-6 max-w-md">
-      <p class="text-sm text-slate-600">
+      <p class="text-sm text-gray-600">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
         choose a new one.
       </p>
 
       <div v-if="form.successful.value" class="mt-6 text-sm">
-        <span class="font-slate-700 block font-medium">
+        <span class="font-gray-700 block font-medium">
           Password reset link sent.
         </span>
 
-        <p class="mr-3 text-slate-500">
+        <p class="mr-3 text-gray-500">
           Please check your email inbox for further details.
         </p>
       </div>

@@ -1,9 +1,9 @@
-import { useAuthStore } from '@/stores/auth'
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import { useAuthStore } from '../stores/auth'
 
-export const useApi = () => {
-  const authStore = useAuthStore()
+export function useApi() {
   const { apiBase } = useRuntimeConfig()
+  const authStore = useAuthStore()
 
   const api = axios.create({
     baseURL: apiBase,
@@ -13,15 +13,6 @@ export const useApi = () => {
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
     },
-  })
-
-  // Check if service is offline
-  api.interceptors.request.use((config) => {
-    if (!window.navigator.onLine) {
-      console.log('cache requests to sync later')
-    }
-
-    return config
   })
 
   // Handle CSRF Errors
@@ -39,6 +30,8 @@ export const useApi = () => {
           authStore.clearUser()
         }
         return (location.href = '/login')
+      case 409:
+        return navigateTo('/verify-email')
       case 419:
         await api.get('sanctum/csrf-cookie')
         return api.request(error.config)

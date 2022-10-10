@@ -8,7 +8,7 @@ const authenticate = () => {
   form.submit(async () => {
     await register(form.fields.value)
 
-    return navigateTo('/')
+    return navigateTo('/home')
   })
 }
 </script>
@@ -16,7 +16,7 @@ const authenticate = () => {
   <div class="w-full">
     <div class="text-center">
       <NuxtLink to="/" class="inline-block">
-        <ApplicationLogo size="lg" />
+        <ApplicationLogo />
       </NuxtLink>
     </div>
 

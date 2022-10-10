@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async loadUser(): Promise<App.Models.User> {
-      const user = await useAuth().user()
+      const user = await useAuth().getAuthenticatedUser()
 
       this.updateUser(user)
 

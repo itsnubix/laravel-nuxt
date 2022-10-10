@@ -23,13 +23,13 @@ definePageMeta({ layout: 'guest' })
       >
         Home
       </NuxtLink>
-      <NuxtLink v-else to="/login" class="text-sm text-gray-700 underline">
-        Log in
-      </NuxtLink>
+      <NuxtLink v-else to="/login" class="text-sm text-gray-700 underline"
+        >Log in</NuxtLink
+      >
 
-      <NuxtLink to="/register" class="ml-4 text-sm text-gray-700 underline">
-        Register
-      </NuxtLink>
+      <NuxtLink to="/register" class="ml-4 text-sm text-gray-700 underline"
+        >Register</NuxtLink
+      >
     </div>
 
     <div class="mx-auto max-w-6xl sm:px-6 lg:px-8">

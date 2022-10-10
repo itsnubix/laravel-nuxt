@@ -6,8 +6,6 @@ const props = withDefaults(
     loaded?: boolean
     success?: boolean
     type?: 'button' | 'submit'
-    icon?: any
-    iconOnly?: boolean
   }>(),
   { type: 'submit' },
 )
@@ -31,17 +29,30 @@ watch(
   <FormButton :type="type" :disabled="loading">
     <slot v-bind="{ showCheck, success, loading, loaded }" />
 
-    <div
-      :class="['text-primary-400', !iconOnly && '-mr-1 ml-2']"
-      aria-hidden="true"
-    >
-      <component
-        v-if="icon && !loading && !showCheck"
-        :is="icon"
-        class="h-5 w-5"
-      />
-      <Loading v-else-if="loading && !showCheck" class="h-5 w-5" />
-      <CheckIcon v-else-if="showCheck" class="h-5 w-5" />
+    <div class="text-primary-400" aria-hidden="true">
+      <CheckIcon v-if="showCheck" class="ml-2 h-5 w-5" />
+      <!-- Loading icon -->
+      <svg
+        v-else-if="loading"
+        class="ml-2 h-5 w-5 animate-spin"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
     </div>
   </FormButton>
 </template>
