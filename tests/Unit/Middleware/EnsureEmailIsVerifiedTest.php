@@ -4,10 +4,13 @@ namespace Tests\Unit\Middleware;
 
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EnsureEmailIsVerifiedTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_an_email_must_be_verified()
     {
         $this->app['router']
